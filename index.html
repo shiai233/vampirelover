@@ -1,136 +1,134 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Discover Your Vampire Lover</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <!-- make relative URLs resolve from this folder -->
-  <base href="./">
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <base href="./" />
 
   <!-- Vintage‐Gothic fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+    rel="stylesheet"
+  />
 
   <style>
-    /* RESET & VIDEO BG */
-    * { box-sizing:border-box; margin:0; padding:0 }
-    html, body { width:100%; height:100%; overflow:hidden; background:#000 }
-    #bg-video {
-      position:fixed; top:0; left:0;
-      width:100%; height:100%;
-      object-fit:cover; z-index:-1;
+    /* RESET */
+    * { box-sizing: border-box; margin: 0; padding: 0 }
+    html, body { width: 100%; height: 100%; overflow: hidden; }
+
+    /* FULL-SCREEN LACE BACKGROUND ON INTRO & RESULT */
+    #intro, #result {
+      background: url('lace-bg.jpg') center/cover no-repeat;
+    }
+
+    /* SCREENS & CARDS */
+    .screen {
+      position: absolute; top: 0; left: 0;
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center;
+    }
+    .hidden { display: none }
+    .card {
+      background: rgba(0,0,0,0.85);
+      border: 1px solid #666; border-radius: 8px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.7);
+      max-width: 600px; width: 90%; padding: 2rem;
     }
 
     /* TYPOGRAPHY */
-    h1 { 
-      font-family:'Cinzel', serif; 
-      font-size:2rem; color:#eee; 
-      text-shadow:1px 1px 4px rgba(0,0,0,0.9);
-      margin-bottom:1rem;
+    h1 {
+      font-family: 'Cinzel', serif;
+      font-size: 2rem; color: #eee;
+      text-shadow: 1px 1px 4px rgba(0,0,0,0.9);
+      margin-bottom: 1rem;
     }
     h2 {
-      font-family:'Cinzel', serif; 
-      font-size:2.5rem; color:#eee; 
-      text-shadow:1px 1px 4px rgba(0,0,0,0.9);
-      margin-bottom:1rem;
+      font-family: 'Cinzel', serif;
+      font-size: 2.5rem; color: #eee;
+      text-shadow: 1px 1px 4px rgba(0,0,0,0.9);
+      margin-bottom: 1rem;
     }
     .question-number {
-      font-family:'Cinzel', serif; 
-      font-size:2rem; color:#eee; 
-      margin-bottom:0.5rem;
+      font-family: 'Cinzel', serif;
+      font-size: 2rem; color: #eee;
+      margin-bottom: 0.5rem;
     }
     .question-main {
-      font-family:'Playfair Display', serif; 
-      font-size:1.8rem; font-weight:bold; color:#eee; 
-      margin-bottom:1rem;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem; font-weight: bold; color: #eee;
+      margin-bottom: 1rem;
     }
     p, label {
-      font-family:'Playfair Display', serif; 
-      font-size:1rem; line-height:1.5; color:#eee;
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem; line-height: 1.5; color: #eee;
     }
 
     /* BUTTONS */
     .btn, .btn-small {
-      font-family:'Playfair Display', serif;
-      background:none; color:#eee;
-      border:1px solid #eee; border-radius:25px;
-      cursor:pointer; transition:background 0.3s, color 0.3s;
+      font-family: 'Playfair Display', serif;
+      background: none; color: #eee;
+      border: 1px solid #eee; border-radius: 25px;
+      cursor: pointer; transition: background 0.3s, color 0.3s;
     }
-    .btn { padding:0.75rem 1.5rem; font-size:1rem; }
-    .btn-small { padding:0.5rem 1rem; font-size:0.9rem; }
-    .btn:hover, .btn-small:hover { background:#eee; color:#000 }
-    #start-btn { margin-top:3rem }
-
-    /* SCREENS & CARDS */
-    .screen {
-      position:absolute; top:0; left:0;
-      width:100%; height:100%;
-      display:flex; align-items:center; justify-content:center; text-align:center;
-    }
-    .hidden { display:none }
-    .card {
-      background:rgba(0,0,0,0.85);
-      border:1px solid #666; border-radius:8px;
-      box-shadow:0 0 20px rgba(0,0,0,0.7);
-      max-width:600px; width:90%; padding:2rem;
-    }
+    .btn { padding: 0.75rem 1.5rem; font-size: 1rem; }
+    .btn-small { padding: 0.5rem 1rem; font-size: 0.9rem; }
+    .btn:hover, .btn-small:hover { background: #eee; color: #000 }
+    #start-btn { margin-top: 3rem }
 
     /* QUIZ BG */
     #quiz {
-      background:url('dark-bg.png') center/cover no-repeat;
-      background-size:cover;
+      background: url('dark-bg.png') center/cover no-repeat;
+      background-size: cover;
     }
 
-    /* ROSE */
-    .rose-top { width:80px; margin-bottom:1rem }
+    /* ROSE IMAGE */
+    .rose-top { width: 80px; margin-bottom: 1rem }
 
     /* OPTIONS */
-    .options { list-style:none; padding:0; margin:1rem 0 }
-    .options li { margin:0.5rem 0 }
-    .options input { margin-right:0.5rem }
+    .options { list-style: none; margin: 1rem 0; padding: 0 }
+    .options li { margin: 0.5rem 0 }
+    .options input { margin-right: 0.5rem }
 
-    /* IMAGE GRID – Q1 */
+    /* IMAGE GRID OPTIONS */
     .inline-img-options {
-      display:flex; justify-content:space-around; margin-top:1rem;
+      display: flex; justify-content: space-around; margin-top: 1rem;
     }
     .inline-img-options li {
-      display:flex; flex-direction:column; align-items:center;
+      display: flex; flex-direction: column; align-items: center;
     }
     .option-img {
-      width:100px; height:auto; border:2px solid #555; border-radius:8px;
+      width: 100px; height: auto;
+      border: 2px solid #555; border-radius: 8px;
     }
-    .inline-img-options label { margin-top:0.5rem; }
+    .inline-img-options label { margin-top: 0.5rem }
 
-    /* LEFT-ALIGN non-image questions */
-    .left-options { text-align:left; }
-    .left-options li { margin:0.5rem 0; }
+    .left-options { text-align: left; }
 
     /* RESULT IMAGE */
-    .result-img { max-width:100%; height:auto; border-radius:4px; margin-bottom:1rem }
+    .result-img { max-width: 100%; height: auto; border-radius: 4px; margin-bottom: 1rem }
 
     /* RESULT BUTTON GROUPS */
-    .button-group { margin-top:1rem; }
+    .button-group { margin-top: 1rem }
     .small-buttons {
-      display:flex; justify-content:center; gap:1rem; margin-top:0.5rem;
+      display: flex; justify-content: center; gap: 1rem; margin-top: 0.5rem;
     }
 
-    /* Crimson-red “Join” button */
+    /* RAINBOW → CRIMSON JOIN BUTTON */
     .join-btn {
-      color: crimson !important;
-      border-color: crimson;
+      background: linear-gradient(90deg,
+        red, orange, yellow, green, blue, indigo, violet);
+      color: white !important;
+      border: none;
     }
     .join-btn:hover {
       background: crimson;
-      color: #fff;
+      color: white !important;
     }
   </style>
 </head>
 <body>
-
-  <!-- Video Background -->
-  <video id="bg-video" autoplay muted loop playsinline preload="auto">
-    <source src="https://res.cloudinary.com/dikholgbe/video/upload/v1749570523/ub2cribpimadpevxyot7.mp4" type="video/mp4">
-    Sorry, your browser doesn't support embedded videos.
-  </video>
 
   <!-- Intro Screen -->
   <div id="intro" class="screen">
@@ -144,7 +142,7 @@
   <!-- Quiz Screen -->
   <div id="quiz" class="screen hidden">
     <div class="card">
-      <img id="rose-img" class="rose-top" src="" alt="Decorative rose">
+      <img id="rose-img" class="rose-top" src="" alt="Decorative rose" />
       <div class="question-number" id="question-number"></div>
       <div class="question-main" id="question-text"></div>
       <form id="quiz-form">
@@ -159,7 +157,7 @@
     <div class="card">
       <h1>Your Result</h1>
       <h2 id="result-title"></h2>
-      <img id="result-image" class="result-img" src="" alt="Vampire portrait">
+      <img id="result-image" class="result-img" src="" alt="Vampire portrait" />
       <p id="result-desc"></p>
       <div class="button-group">
         <button class="btn join-btn">🌹🦇 Join our vampire fan group chat 🦇🌹</button>
@@ -173,25 +171,55 @@
 
   <script>
     const questions = [
-      { text: "Choose the abstract image that resonates with your soul:", options: ['abstract1.jpg','abstract2.jpg','abstract3.jpg','abstract4.jpg'], isImage: true },
-      { text: "Which vampire classic speaks to you most?", options: ["Interview with the Vampire","What We Do in the Shadows","Carmilla","Twilight"] },
-      { text: "Choose the fruit whose taste you crave:", options: ["Dark, juicy pomegranate seeds","Exotic dragon fruit","Rich, dew-kissed blackberries","Soft, sweet peaches"] },
-      { text: "Which musical vibe moves you at night?", options: ["Dramatic classical piano","Quirky jazz or playful pop","Haunting ethereal vocals","Soft indie folk ballads"] },
-      { text: "Which MBTI group do you most identify with?", options: ["Analysts (INTJ, INTP, ENTJ, ENTP)","Diplomats (INFJ, INFP, ENFJ, ENFP)","Sentinels (ISTJ, ISFJ, ESTJ, ESFJ)","Explorers (ISTP, ISFP, ESTP, ESFP)"] },
-      { text: "Your ideal nighttime escape is:", options: ["Palace ballroom under the moon","Secret underground jazz bar","Abandoned castle courtyard","Cozy forest cabin"] },
-      { text: "Which bed style reflects your essence?", options: ["Ornate four-poster","Coffin-shaped daybed","Sleek iron frame","Rustic floor mattress"] },
-      { text: "Pick the most seductive scenario:", options: ["Slow waltz by candlelight","Cherries drenched in red wine","Whispering dark secrets","Soft kisses at dawn"] }
+      {
+        text: "Choose the abstract image that resonates with your soul:",
+        options: ["abstract1.jpg","abstract2.jpg","abstract3.jpg","abstract4.jpg"],
+        isImage: true
+      },
+      {
+        text: "Which vampire classic speaks to you most?",
+        options: ["Interview with the Vampire","What We Do in the Shadows","Carmilla","Twilight"]
+      },
+      {
+        text: "Choose the fruit whose taste you crave:",
+        options: ["Dark, juicy pomegranate seeds","Exotic dragon fruit","Rich, dew-kissed blackberries","Soft, sweet peaches"]
+      },
+      {
+        text: "Which musical vibe moves you at night?",
+        options: ["Dramatic classical piano","Quirky jazz or playful pop","Haunting ethereal vocals","Soft indie folk ballads"]
+      },
+      {
+        text: "Which MBTI group do you most identify with?",
+        options: [
+          "Analysts (INTJ, INTP, ENTJ, ENTP)",
+          "Diplomats (INFJ, INFP, ENFJ, ENFP)",
+          "Sentinels (ISTJ, ISFJ, ESTJ, ESFJ)",
+          "Explorers (ISTP, ISFP, ESTP, ESFP)"
+        ]
+      },
+      {
+        text: "Your ideal nighttime escape is:",
+        options: ["Palace ballroom under the moon","Secret underground jazz bar","Abandoned castle courtyard","Cozy forest cabin"]
+      },
+      {
+        text: "Which bed style reflects your essence?",
+        options: ["Ornate four-poster","Coffin-shaped daybed","Sleek iron frame","Rustic floor mattress"]
+      },
+      {
+        text: "Pick the most seductive scenario:",
+        options: ["Slow waltz by candlelight","Cherries drenched in red wine","Whispering dark secrets","Soft kisses at dawn"]
+      }
     ];
 
     const mapping = [
-      ['carmilla','edward','laszlo','lestat'],
-      ['edward','carmilla','lestat','laszlo'],
-      ['lestat','laszlo','carmilla','edward'],
-      ['laszlo','edward','carmilla','lestat'],
-      ['lestat','laszlo','carmilla','edward'],
-      ['carmilla','edward','laszlo','lestat'],
-      ['edward','carmilla','lestat','laszlo'],
-      ['lestat','laszlo','carmilla','edward']
+      ["carmilla","edward","laszlo","lestat"],
+      ["edward","carmilla","lestat","laszlo"],
+      ["lestat","laszlo","carmilla","edward"],
+      ["laszlo","edward","carmilla","lestat"],
+      ["lestat","laszlo","carmilla","edward"],
+      ["carmilla","edward","laszlo","lestat"],
+      ["edward","carmilla","lestat","laszlo"],
+      ["lestat","laszlo","carmilla","edward"]
     ];
 
     const resultsData = {
@@ -234,51 +262,53 @@ a sanctuary. Choose him if you long for safety wrapped in romance.`
       }
     };
 
-    const roseImages = ['rose1.png','rose2.png'];
+    const roseImages = ["rose1.png","rose2.png"];
     let currentQuestion = 0;
     const scores = { lestat:0, laszlo:0, carmilla:0, edward:0 };
 
-    const introEl    = document.getElementById('intro');
-    const quizEl     = document.getElementById('quiz');
-    const resEl      = document.getElementById('result');
-    const qNumEl     = document.getElementById('question-number');
-    const qTextEl    = document.getElementById('question-text');
-    const optsCt     = document.getElementById('options-container');
-    const form       = document.getElementById('quiz-form');
-    const startBtn   = document.getElementById('start-btn');
-    const roseImg    = document.getElementById('rose-img');
-    const restartBtn = document.getElementById('restart-btn');
-    const shareBtn   = document.getElementById('share-btn');
-    const joinBtn    = document.querySelector('.join-btn');
+    // Element refs
+    const introEl    = document.getElementById("intro");
+    const quizEl     = document.getElementById("quiz");
+    const resEl      = document.getElementById("result");
+    const qNumEl     = document.getElementById("question-number");
+    const qTextEl    = document.getElementById("question-text");
+    const optsCt     = document.getElementById("options-container");
+    const form       = document.getElementById("quiz-form");
+    const startBtn   = document.getElementById("start-btn");
+    const roseImg    = document.getElementById("rose-img");
+    const restartBtn = document.getElementById("restart-btn");
+    const shareBtn   = document.getElementById("share-btn");
+    const joinBtn    = document.querySelector(".join-btn");
 
     // Start quiz
-    startBtn.addEventListener('click', () => {
-      introEl.classList.add('hidden');
-      quizEl.classList.remove('hidden');
+    startBtn.addEventListener("click", () => {
+      introEl.classList.add("hidden");
+      quizEl.classList.remove("hidden");
       showQuestion();
     });
 
     // Submit answer
-    form.addEventListener('submit', e => {
+    form.addEventListener("submit", e => {
       e.preventDefault();
-      const choice = Array.from(form.querySelectorAll('input[name="option"]')).find(r => r.checked);
-      if (!choice) return alert('Please select an option.');
+      const choice = Array.from(form.querySelectorAll('input[name="option"]'))
+                          .find(r => r.checked);
+      if (!choice) return alert("Please select an option.");
       scores[mapping[currentQuestion][+choice.value]]++;
       currentQuestion++;
       if (currentQuestion < questions.length) showQuestion();
       else showResult();
     });
 
-    // Render a question
+    // Render question
     function showQuestion() {
       roseImg.src = roseImages[currentQuestion % roseImages.length];
       qNumEl.textContent  = `Question ${currentQuestion+1}`;
       qTextEl.textContent = questions[currentQuestion].text;
       const q = questions[currentQuestion];
-      optsCt.className = 'options ' + (q.isImage ? 'inline-img-options' : 'left-options');
-      optsCt.innerHTML = '';
-      q.options.forEach((opt,i) => {
-        const li = document.createElement('li');
+      optsCt.className = "options " + (q.isImage ? "inline-img-options" : "left-options");
+      optsCt.innerHTML = "";
+      q.options.forEach((opt, i) => {
+        const li = document.createElement("li");
         if (q.isImage) {
           li.innerHTML = `
             <img src="${opt}" class="option-img" alt="">
@@ -293,33 +323,33 @@ a sanctuary. Choose him if you long for safety wrapped in romance.`
 
     // Show result
     function showResult() {
-      quizEl.classList.add('hidden');
+      quizEl.classList.add("hidden");
       const winner = Object.keys(scores).reduce((a,b)=> scores[a]>scores[b]?a:b);
       const data   = resultsData[winner];
-      document.getElementById('result-title').textContent = data.title;
-      document.getElementById('result-image').src = data.img;
-      document.getElementById('result-desc').textContent = data.desc;
-      resEl.classList.remove('hidden');
+      document.getElementById("result-title").textContent = data.title;
+      document.getElementById("result-image").src = data.img;
+      document.getElementById("result-desc").textContent = data.desc;
+      resEl.classList.remove("hidden");
     }
 
     // Share link
-    shareBtn.addEventListener('click', () => {
+    shareBtn.addEventListener("click", () => {
       navigator.clipboard.writeText(window.location.href)
-        .then(()=>alert('Link copied!'))
-        .catch(()=>prompt('Copy this link:', window.location.href));
+        .then(()=>alert("Link copied!"))
+        .catch(()=>prompt("Copy this link:", window.location.href));
     });
 
     // Restart quiz
-    restartBtn.addEventListener('click', () => {
+    restartBtn.addEventListener("click", () => {
       currentQuestion = 0;
       Object.keys(scores).forEach(k=>scores[k]=0);
-      resEl.classList.add('hidden');
-      introEl.classList.remove('hidden');
+      resEl.classList.add("hidden");
+      introEl.classList.remove("hidden");
     });
 
     // Join button click handler
-    joinBtn.addEventListener('click', () => {
-      window.open('https://www.whatthefan.com/', '_blank');
+    joinBtn.addEventListener("click", () => {
+      window.open("https://www.whatthefan.com/", "_blank");
     });
   </script>
 </body>
