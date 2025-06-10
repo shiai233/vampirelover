@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Discover Your Vampire Lover</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <!-- Vintage‐Gothic fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&
+        family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&
+        display=swap" rel="stylesheet">
+  <style>
+    /* RESET & VIDEO BG */
+    * { box-sizing:border-box; margin:0; padding:0 }
+    html, body { width:100%; height:100%; overflow:hidden; background:#000 }
+    #bg-video { position:fixed; top:0; left:0; width:100%; height:100%; object-fit:cover; z-index:-1 }
+
+    /* TYPOGRAPHY */
+    h1 { 
+      font-family:'Cinzel', serif; 
+      font-size:2rem; color:#eee; 
+      text-shadow:1px 1px 4px rgba(0,0,0,0.9);
+      margin-bottom:1rem;
+    }
+    h2 {
+      font-family:'Cinzel', serif; 
+      font-size:2.5rem; color:#eee; 
+      text-shadow:1px 1px 4px rgba(0,0,0,0.9);
+      margin-bottom:1rem;
+    }
+    .question-number {
+      font-family:'Cinzel', serif; 
+      font-size:2rem; color:#eee; 
+      margin-bottom:0.5rem;
+    }
+    .question-main {
+      font-family:'Playfair Display', serif; 
+      font-size:1.8rem; font-weight:bold; color:#eee; 
+      margin-bottom:1rem;
+    }
+    p, label {
+      font-family:'Playfair Display', serif; 
+      font-size:1rem; line-height:1.5; color:#eee;
+    }
+
+    /* BUTTONS */
+    .btn, .btn-small {
+      font-family:'Playfair Display', serif;
+      background:none; color:#eee;
+      border:1px solid #eee; border-radius:25px;
+      cursor:pointer; transition:background 0.3s, color 0.3s;
+    }
+    .btn { padding:0.75rem 1.5rem; font-size:1rem; }
+    .btn-small { padding:0.5rem 1rem; font-size:0.9rem; }
+    .btn:hover, .btn-small:hover { background:#eee; color:#000 }
+    #start-btn { margin-top:3rem }
+
+    /* SCREENS & CARDS */
+    .screen {
+      position:absolute; top:0; left:0;
+      width:100%; height:100%;
+      display:flex; align-items:center; justify-content:center; text-align:center;
+    }
+    .hidden { display:none }
+    .card {
+      background:rgba(0,0,0,0.85);
+      border:1px solid #666; border-radius:8px;
+      box-shadow:0 0 20px rgba(0,0,0,0.7);
+      max-width:600px; width:90%; padding:2rem;
+    }
+
+    /* QUIZ BG */
+    #quiz {
+      background:url('dark-bg.png') center/cover no-repeat;
+      background-size:cover;
+    }
+
+    /* ROSE */
+    .rose-top { width:80px; margin-bottom:1rem }
+
+    /* OPTIONS */
+    .options { list-style:none; padding:0; margin:1rem 0 }
+    .options li { margin:0.5rem 0 }
+    .options input { margin-right:0.5rem }
+
+    /* IMAGE GRID – Q1, inline but with vertical image→radio */
+    .inline-img-options {
+      display:flex; justify-content:space-around; margin-top:1rem;
+    }
+    .inline-img-options li {
+      display:flex; flex-direction:column; align-items:center;
+    }
+    .option-img {
+      width:100px; height:auto; border:2px solid #555; border-radius:8px;
+    }
+    .inline-img-options label {
+      margin-top:0.5rem; /* radio under image */
+    }
+
+    /* LEFT-ALIGN non-image questions */
+    .left-options { text-align:left; }
+    .left-options li { margin:0.5rem 0; }
+
+    /* RESULT IMAGE */
+    .result-img { max-width:100%; height:auto; border-radius:4px; margin-bottom:1rem }
+
+    /* RESULT BUTTON GROUPS */
+    .button-group { margin-top:1rem; }
+    .small-buttons {
+      display:flex; justify-content:center; gap:1rem; margin-top:0.5rem;
+    }
+    .join-btn { color:crimson !important }
+  </style>
+</head>
+<body>
+
+  <!-- Video Background -->
+  <video id="bg-video" autoplay muted loop playsinline>
+    <source src="background.mp4" type="video/mp4">
+  </video>
+
+  <!-- Intro Screen -->
+  <div id="intro" class="screen">
+    <div class="card">
+      <h1>Discover Your Vampire Lover</h1>
+      <p>Step into the night and uncover which immortal soul you’re destined to fall for…</p>
+      <button id="start-btn" class="btn">Start the Quiz</button>
+    </div>
+  </div>
+
+  <!-- Quiz Screen -->
+  <div id="quiz" class="screen hidden">
+    <div class="card">
+      <img id="rose-img" class="rose-top" src="" alt="Decorative rose">
+      <div class="question-number" id="question-number"></div>
+      <div class="question-main" id="question-text"></div>
+      <form id="quiz-form">
+        <ul id="options-container" class="options"></ul>
+        <button type="submit" class="btn">Submit</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Result Screen -->
+  <div id="result" class="screen hidden">
+    <div class="card">
+      <h1>Your Result</h1>
+      <h2 id="result-title"></h2>
+      <img id="result-image" class="result-img" src="" alt="Vampire portrait">
+      <p id="result-desc"></p>
+      <div class="button-group">
+        <button class="btn join-btn">🌹🦇 Join our vampire fan group chat 🦇🌹</button>
+        <div class="small-buttons">
+          <button id="restart-btn" class="btn-small">Restart Quiz</button>
+          <button id="share-btn" class="btn-small">Share Quiz</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        text: "Choose the abstract image that resonates with your soul:",
+        options: ['abstract1.jpg','abstract2.jpg','abstract3.jpg','abstract4.jpg'],
+        isImage: true
+      },
+      {
+        text: "Which vampire classic speaks to you most?",
+        options: ["Interview with the Vampire","What We Do in the Shadows","Carmilla","Twilight"]
+      },
+      {
+        text: "Choose the fruit whose taste you crave:",
+        options: ["Dark, juicy pomegranate seeds","Exotic dragon fruit","Rich, dew-kissed blackberries","Soft, sweet peaches"]
+      },
+      {
+        text: "Which musical vibe moves you at night?",
+        options: ["Dramatic classical piano","Quirky jazz or playful pop","Haunting ethereal vocals","Soft indie folk ballads"]
+      },
+      {
+        text: "Which MBTI group do you most identify with?",
+        options: [
+          "Analysts (INTJ, INTP, ENTJ, ENTP)",
+          "Diplomats (INFJ, INFP, ENFJ, ENFP)",
+          "Sentinels (ISTJ, ISFJ, ESTJ, ESFJ)",
+          "Explorers (ISTP, ISFP, ESTP, ESFP)"
+        ]
+      },
+      {
+        text: "Your ideal nighttime escape is:",
+        options: ["Palace ballroom under the moon","Secret underground jazz bar","Abandoned castle courtyard","Cozy forest cabin"]
+      },
+      {
+        text: "Which bed style reflects your essence?",
+        options: ["Ornate four-poster","Coffin-shaped daybed","Sleek iron frame","Rustic floor mattress"]
+      },
+      {
+        text: "Pick the most seductive scenario:",
+        options: ["Slow waltz by candlelight","Cherries drenched in red wine","Whispering dark secrets","Soft kisses at dawn"]
+      }
+    ];
+
+    // Map each question’s answers to character keys
+    const mapping = [
+      ['carmilla','edward','laszlo','lestat'],
+      ['edward','carmilla','lestat','laszlo'],
+      ['lestat','laszlo','carmilla','edward'],
+      ['laszlo','edward','carmilla','lestat'],
+      ['lestat','laszlo','carmilla','edward'],  // MBTI grouping
+      ['carmilla','edward','laszlo','lestat'],
+      ['edward','carmilla','lestat','laszlo'],
+      ['lestat','laszlo','carmilla','edward']
+    ];
+
+    const resultsData = {
+      lestat: {
+        title: "Lestat de Lioncourt",
+        img: "lestat.gif",
+        desc: `Lestat is the aristocratic force of nature: charismatic, rebellious, and utterly magnetic.  
+He’s been a leader of vampire covens, a musician, and a romantic icon for centuries.  
+With you, he’ll share tales of decadent salons in Paris, midnight rendezvous in opulent ballrooms,  
+and philosophical debates that stretch until dawn. His passion burns bright, and he expects you  
+to match his intensity. Beware: loving Lestat means embracing drama, artistry, and a life  
+that never, ever settles for the mundane.`
+      },
+      laszlo: {
+        title: "Laszlo Cravensworth",
+        img: "laszlo.gif",
+        desc: `Laszlo is the court jester of eternal night: witty, unpredictable, and absurdly charming.  
+He’ll serenade you with slapstick piano performances, mock-epic rapier duels, and off-key  
+symphonies in candlelit basements. With him, romance is equal parts laughter and mischief.  
+He may accidentally burn your curtains or flood the crypt, but you’ll never be bored.  
+Choose Laszlo if you crave love that’s equal parts goofy and grandiose.`
+      },
+      carmilla: {
+        title: "Carmilla",
+        img: "carmilla.gif",
+        desc: `Carmilla is the embodiment of gothic allure: haunting, melancholic, and intensely intimate.  
+She’ll whisper secrets in your ear under moonlit arches, press crimson roses to your lips,  
+and wrap you in velvet shadows. With Carmilla, love is a slow burn of longing—every glance  
+and every touch charged with forbidden desire. She’s both predator and muse,  
+inviting you into a world where dreams and nightmares entwine.`
+      },
+      edward: {
+        title: "Edward Cullen",
+        img: "edward.gif",
+        desc: `Edward is the tender guardian of your heart: soft-spoken, fiercely protective,  
+and endlessly devoted. He’ll watch over you in misty woods at dawn, brush a stray hair  
+from your face as sunlight glimmers on his pale skin, and whisper promises that last  
+through eternity. With Edward, love is warm, honest, and healing—every embrace  
+a sanctuary. Choose him if you long for safety wrapped in romance.`
+      }
+    };
+
+    const roseImages = ['rose1.png','rose2.png'];
+    let currentQuestion = 0;
+    const scores = { lestat:0, laszlo:0, carmilla:0, edward:0 };
+
+    // Element refs
+    const introEl    = document.getElementById('intro');
+    const quizEl     = document.getElementById('quiz');
+    const resEl      = document.getElementById('result');
+    const qNumEl     = document.getElementById('question-number');
+    const qTextEl    = document.getElementById('question-text');
+    const optsCt     = document.getElementById('options-container');
+    const form       = document.getElementById('quiz-form');
+    const startBtn   = document.getElementById('start-btn');
+    const roseImg    = document.getElementById('rose-img');
+    const restartBtn = document.getElementById('restart-btn');
+    const shareBtn   = document.getElementById('share-btn');
+
+    // Start quiz
+    startBtn.addEventListener('click', () => {
+      introEl.classList.add('hidden');
+      quizEl.classList.remove('hidden');
+      showQuestion();
+    });
+
+    // Submit answer
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const choice = Array.from(form.querySelectorAll('input[name="option"]'))
+                          .find(r => r.checked);
+      if (!choice) return alert('Please select an option.');
+      scores[mapping[currentQuestion][+choice.value]]++;
+      currentQuestion++;
+      if (currentQuestion < questions.length) showQuestion();
+      else showResult();
+    });
+
+    // Render a question
+    function showQuestion() {
+      // Rose top
+      roseImg.src = roseImages[currentQuestion % roseImages.length];
+
+      // Number & text
+      qNumEl.textContent  = `Question ${currentQuestion+1}`;
+      qTextEl.textContent = questions[currentQuestion].text;
+
+      // Options
+      const q = questions[currentQuestion];
+      optsCt.className = 'options ' + (q.isImage ? 'inline-img-options' : 'left-options');
+      optsCt.innerHTML = '';
+      q.options.forEach((opt,i) => {
+        const li = document.createElement('li');
+        if (q.isImage) {
+          li.innerHTML = `
+            <img src="${opt}" class="option-img" alt="">
+            <label><input type="radio" name="option" value="${i}"></label>`;
+        } else {
+          li.innerHTML = `
+            <label><input type="radio" name="option" value="${i}"> ${opt}</label>`;
+        }
+        optsCt.appendChild(li);
+      });
+    }
+
+    // Show result
+    function showResult() {
+      quizEl.classList.add('hidden');
+      const winner = Object.keys(scores).reduce((a,b)=> scores[a]>scores[b]?a:b);
+      const data   = resultsData[winner];
+      document.getElementById('result-title').textContent = data.title;
+      document.getElementById('result-image').src = data.img;
+      document.getElementById('result-desc').textContent = data.desc;
+      resEl.classList.remove('hidden');
+    }
+
+    // Share link
+    shareBtn.addEventListener('click', () => {
+      navigator.clipboard.writeText(window.location.href)
+        .then(()=>alert('Link copied!'))
+        .catch(()=>prompt('Copy this link:', window.location.href));
+    });
+
+    // Restart quiz
+    restartBtn.addEventListener('click', () => {
+      currentQuestion = 0;
+      Object.keys(scores).forEach(k=>scores[k]=0);
+      resEl.classList.add('hidden');
+      introEl.classList.remove('hidden');
+    });
+  </script>
+</body>
+</html>
