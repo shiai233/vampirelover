@@ -198,38 +198,38 @@
       lestat: {
         title: "Lestat de Lioncourt",
         img: "lestat.gif",
-        desc: `Lestat is the aristocratic force of nature: charismatic, rebellious, and utterly magnetic.  
-He’s been a leader of vampire covens, a musician, and a romantic icon for centuries.  
-With you, he’ll share tales of decadent salons in Paris, midnight rendezvous in opulent ballrooms,  
-and philosophical debates that stretch until dawn. His passion burns bright, and he expects you  
-to match his intensity. Beware: loving Lestat means embracing drama, artistry, and a life  
+        desc: `Lestat is the aristocratic force of nature: charismatic, rebellious, and utterly magnetic.
+He’s been a leader of vampire covens, a musician, and a romantic icon for centuries.
+With you, he’ll share tales of decadent salons in Paris, midnight rendezvous in opulent ballrooms,
+and philosophical debates that stretch until dawn. His passion burns bright, and he expects you
+to match his intensity. Beware: loving Lestat means embracing drama, artistry, and a life
 that never, ever settles for the mundane.`
       },
       laszlo: {
         title: "Laszlo Cravensworth",
         img: "laszlo.gif",
-        desc: `Laszlo is the court jester of eternal night: witty, unpredictable, and absurdly charming.  
-He’ll serenade you with slapstick piano performances, mock-epic rapier duels, and off-key  
-symphonies in candlelit basements. With him, romance is equal parts laughter and mischief.  
-He may accidentally burn your curtains or flood the crypt, but you’ll never be bored.  
+        desc: `Laszlo is the court jester of eternal night: witty, unpredictable, and absurdly charming.
+He’ll serenade you with slapstick piano performances, mock-epic rapier duels, and off-key
+symphonies in candlelit basements. With him, romance is equal parts laughter and mischief.
+He may accidentally burn your curtains or flood the crypt, but you’ll never be bored.
 Choose Laszlo if you crave love that’s equal parts goofy and grandiose.`
       },
       carmilla: {
         title: "Carmilla",
         img: "carmilla.gif",
-        desc: `Carmilla is the embodiment of gothic allure: haunting, melancholic, and intensely intimate.  
-She’ll whisper secrets in your ear under moonlit arches, press crimson roses to your lips,  
-and wrap you in velvet shadows. With Carmilla, love is a slow burn of longing—every glance  
-and every touch charged with forbidden desire. She’s both predator and muse,  
+        desc: `Carmilla is the embodiment of gothic allure: haunting, melancholic, and intensely intimate.
+She’ll whisper secrets in your ear under moonlit arches, press crimson roses to your lips,
+and wrap you in velvet shadows. With Carmilla, love is a slow burn of longing—every glance
+and every touch charged with forbidden desire. She’s both predator and muse,
 inviting you into a world where dreams and nightmares entwine.`
       },
       edward: {
         title: "Edward Cullen",
         img: "edward.gif",
-        desc: `Edward is the tender guardian of your heart: soft-spoken, fiercely protective,  
-and endlessly devoted. He’ll watch over you in misty woods at dawn, brush a stray hair  
-from your face as sunlight glimmers on his pale skin, and whisper promises that last  
-through eternity. With Edward, love is warm, honest, and healing—every embrace  
+        desc: `Edward is the tender guardian of your heart: soft-spoken, fiercely protective,
+and endlessly devoted. He’ll watch over you in misty woods at dawn, brush a stray hair
+from your face as sunlight glimmers on his pale skin, and whisper promises that last
+through eternity. With Edward, love is warm, honest, and healing—every embrace
 a sanctuary. Choose him if you long for safety wrapped in romance.`
       }
     };
@@ -238,7 +238,6 @@ a sanctuary. Choose him if you long for safety wrapped in romance.`
     let currentQuestion = 0;
     const scores = { lestat:0, laszlo:0, carmilla:0, edward:0 };
 
-    // Element refs
     const introEl    = document.getElementById('intro');
     const quizEl     = document.getElementById('quiz');
     const resEl      = document.getElementById('result');
@@ -250,6 +249,7 @@ a sanctuary. Choose him if you long for safety wrapped in romance.`
     const roseImg    = document.getElementById('rose-img');
     const restartBtn = document.getElementById('restart-btn');
     const shareBtn   = document.getElementById('share-btn');
+    const joinBtn    = document.querySelector('.join-btn');
 
     // Start quiz
     startBtn.addEventListener('click', () => {
@@ -261,8 +261,7 @@ a sanctuary. Choose him if you long for safety wrapped in romance.`
     // Submit answer
     form.addEventListener('submit', e => {
       e.preventDefault();
-      const choice = Array.from(form.querySelectorAll('input[name="option"]'))
-                          .find(r => r.checked);
+      const choice = Array.from(form.querySelectorAll('input[name="option"]')).find(r => r.checked);
       if (!choice) return alert('Please select an option.');
       scores[mapping[currentQuestion][+choice.value]]++;
       currentQuestion++;
@@ -316,6 +315,11 @@ a sanctuary. Choose him if you long for safety wrapped in romance.`
       Object.keys(scores).forEach(k=>scores[k]=0);
       resEl.classList.add('hidden');
       introEl.classList.remove('hidden');
+    });
+
+    // Join button click handler
+    joinBtn.addEventListener('click', () => {
+      window.open('https://www.whatthefan.com/', '_blank');
     });
   </script>
 </body>
